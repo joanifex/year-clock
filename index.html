@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>The Present</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <script src="conic-gradient.js"></script>
+
+    <style>
+      .clock {
+        background:
+          radial-gradient(
+            circle closest-side,
+            hsl(0,0%,100%),
+            hsl(0,0%,0%) 100%
+          ),
+          conic-gradient(white, blue, aqua, lime, yellow, orange, red, magenta, white);
+        background-blend-mode: screen;
+        border: 5px solid white;
+        border-radius: 50%;
+        box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80vw;
+        height: 80vw;
+        transform: translate(-50%, -50%);  
+      }
+
+      .hand { transform-origin: 50% }
+
+      @media screen and (orientation: landscape) {
+        .clock {
+          width: 80vh;
+          height: 80vh;
+        }
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <svg class="clock" width="90%" height="90%">
+      <rect
+        class="hand"
+        fill="white"
+        stroke="black"
+        stroke-width="1"
+        stroke-linecap="round"
+        height="46%"
+        width="1%"
+        ry="5"
+        rx="5"
+        x="49.5%"
+        y="50.5%"
+      />
+    </svg>
+  </body>
+
+  <script>
+    const now = new Date();
+    const dayOfYear = (
+      Date.UTC(
+        now.getFullYear(), now.getMonth(), now.getDate()) -
+        Date.UTC(now.getFullYear(), 0, 0)
+      ) / 24 / 60 / 60 / 1000;
+    const handRotation = ( dayOfYear / 365 ) * 360 + 180;
+    const hand = document.querySelector(".hand");
+    const { x, y } = hand.getBBox();
+    hand.setAttribute("style", `transform: rotate(${handRotation}deg)`);
+  </script>
+
+</html>
